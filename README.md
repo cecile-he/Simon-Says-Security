@@ -1,2 +1,4 @@
 # Simon-Says-Security
-Arduino security system based on the popular 'Simon Says' game. Created with C++ and Arduino Uno hardware design 
+Arduino security system based on the popular 'Simon Says' game— features use of timers and hardware/software interrupts.
+
+C++, Arduino hardware design
