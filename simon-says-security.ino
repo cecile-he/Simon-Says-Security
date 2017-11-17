@@ -1,4 +1,4 @@
-// declare variables that do not change:
+// declare constants for button and light pins
 const int greenButton = 7;
 const int greenLED = 13;
 
@@ -11,10 +11,10 @@ const int blueLED = 11;
 const int yellowButton = 4;
 const int yellowLED = 10;
 
-// declare the interrupt pins:
-const int interPin = 2; // the pin that the interrupt is attached to
+// declare constant for interrupt pin
+const int interPin = 2; // interrupt is attached to pin 2
 
-// declare variables that can change:
+// declare state variables (changes)
 int greenState = 0;
 int redState = 0;
 int blueState = 0;
@@ -29,15 +29,15 @@ int reactPoints = 0;
 // declare variable to keep track of unlock points; you must have 2 unlock points and 4 react points to unlock the vault 
 int unlockPoints = 0; 
 
-// declare variable that stores which button was hit (1 to 4)
+// declare variable that stores the value of the button was hit (1 to 4)
 // volatile because we will be changing it inside the interrupt
 volatile int hitButton = 0;
 
-// declare variable that stores the rounds that will be skipped 
+// declare variable that stores the rounds that will be skipped (1, 2, 3, or 4)
 int skipOne = 0; // first round that is skipped
 int skipTwo = 0; // second round that is skipped
 
-// declare variables that will change:
+// declare variable to store interrupt button state (changes)
 volatile int buttonState = 0; // variable that triggers the interrupt
 
 //variables for timing:
@@ -54,7 +54,7 @@ void setup() {
   pinMode(blueButton, INPUT);
   pinMode(yellowButton, INPUT);
   
-  pinMode(interPin, INPUT); // interrupt pin is an input too!
+  pinMode(interPin, INPUT); // interrupt pin is an input too
 
   // initialize LED pins as outputs: 
   pinMode(greenLED, OUTPUT);
@@ -99,7 +99,7 @@ void setup() {
  sei(); //re-enable interrupts
 
 }
-//---------------------------
+//--------------------------END OF SETUP------------------------------------------------------------------------------------------------
 
 
 void loop() {
@@ -136,7 +136,9 @@ void loop() {
     roundNumber++; // round 0 goes to round 1 
     hitButton = 0;
   }
-//---------------------------------------------------
+
+//----------------------------BEGIN GAME ------------------------------------------------------------------------------------
+
   else if (roundNumber == 1) { // IN ROUND ONE
     Serial.println("");
     Serial.println("Welcome to round 1. Try to match the light!");
@@ -433,14 +435,15 @@ Serial.println("");
 }
 
 
-//-----------------------
+//-----------------------INTERRUPT HANDLER-------------------------------------------------
 ISR(TIMER1_COMPA_vect)
 {
   seconds++; //add 1 second to total time counting
 }
-//----------------------
 
-void ledFlash(int led) {
+//-----------------------FLASHING LED LIGHT------------------------------------------------
+
+void ledFlash(int led) { // deciding which LED to light up based on which button was pushed
 
   if (led == 1){
     digitalWrite(greenLED, HIGH);
